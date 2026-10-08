@@ -1,13 +1,11 @@
 package com.serinity.autoloc.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +22,14 @@ public class Agence {
     private String ville;
     private String adresse;
     private String telephone;
+
+    @OneToMany(mappedBy = "agence")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Employe> employes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "agence")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Vehicule> vehicules = new ArrayList<>();
 }

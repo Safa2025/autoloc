@@ -1,5 +1,6 @@
 package com.serinity.autoloc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.serinity.autoloc.entities.enums.ModePaiement;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,4 +25,10 @@ public class Paiement {
 
     @Enumerated(EnumType.STRING)
     private ModePaiement modePaiement;
+
+    @ManyToOne
+    @JoinColumn(name = "contrat_id")
+    @JsonIgnore
+    @ToString.Exclude
+    private Contrat contrat;
 }

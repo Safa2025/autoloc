@@ -1,7 +1,11 @@
 package com.serinity.autoloc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,4 +19,9 @@ public class Equipement {
     private Long idEquipement;
 
     private String libelle;
+
+    @ManyToMany(mappedBy = "equipements")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Vehicule> vehicules = new ArrayList<>();
 }

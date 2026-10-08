@@ -1,11 +1,14 @@
 package com.serinity.autoloc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.serinity.autoloc.entities.enums.CategorieVehicule;
 import com.serinity.autoloc.entities.enums.StatutVehicule;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,5 +36,25 @@ public class Vehicule {
     @Enumerated(EnumType.STRING)
     private StatutVehicule statut;
 
+    @ManyToOne
+    @JoinColumn(name = "agence_id")
+    private Agence agence;
 
+    @ManyToMany
+    @JoinTable(
+            name = "vehicule_equipement",
+            joinColumns = @JoinColumn(name = "vehicule_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipement_id")
+    )
+    private List<Equipement> equipements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "vehicule")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Maintenance> maintenances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "vehicule")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Reservation> reservations = new ArrayList<>();
 }

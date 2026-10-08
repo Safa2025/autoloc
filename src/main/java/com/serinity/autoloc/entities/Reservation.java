@@ -1,5 +1,6 @@
 package com.serinity.autoloc.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.serinity.autoloc.entities.enums.StatutReservation;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,4 +24,17 @@ public class Reservation {
 
     @Enumerated(EnumType.STRING)
     private StatutReservation statut;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicule_id")
+    private Vehicule vehicule;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    @OneToOne(mappedBy = "reservation")
+    @JsonIgnore
+    @ToString.Exclude
+    private Contrat contrat;
 }
