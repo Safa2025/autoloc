@@ -78,4 +78,15 @@ public class VehiculeServiceImpl implements IVehiculeService {
         System.out.println("[" + date + "] Actualisation des véhicules");
         System.out.println("Nombre total de véhicules : " + vehicules.size());
     }
+    @Scheduled(cron = "0 30 10 * * FRI")
+    public void genererRapportVehicules() {
+        List<Vehicule> vehicules = vehiculeRepository.findAll();
+        int total = vehicules.size();
+        String date = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        System.out.println("===== RAPPORT DES VEHICULES =====");
+        System.out.println("Nombre total de véhicules : " + total);
+        System.out.println("Date de génération : " + date);
+        System.out.println("=================================");
+    }
 }
