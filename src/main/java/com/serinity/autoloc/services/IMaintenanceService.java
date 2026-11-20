@@ -4,9 +4,9 @@ import com.serinity.autoloc.entities.Maintenance;
 import java.util.List;
 
 public interface IMaintenanceService {
-    Maintenance add(Maintenance maintenance);
-    Maintenance update(Maintenance maintenance);
-    void delete(Long id);
-    Maintenance findById(Long id);
-    List<Maintenance> findAll();
+    Maintenance ajouterMaintenance(Maintenance maintenance);
+    Maintenance modifierMaintenance(Maintenance maintenance);
+    List<Maintenance> consulterMaintenance();
+    Maintenance consulterMaintenanceById(Long idMaintenance);
+    void supprimerMaintenance(Long idMaintenance);
 }

@@ -4,9 +4,9 @@ import com.serinity.autoloc.entities.Reservation;
 import java.util.List;
 
 public interface IReservationService {
-    Reservation add(Reservation reservation);
-    Reservation update(Reservation reservation);
-    void delete(Long id);
-    Reservation findById(Long id);
-    List<Reservation> findAll();
+    Reservation ajouterReservation(Reservation reservation);
+    Reservation modifierReservation(Reservation reservation);
+    List<Reservation> consulterReservations();
+    Reservation consulterReservationByID(Long idReservation);
+    void supprimerReservation(Long idReservation);
 }

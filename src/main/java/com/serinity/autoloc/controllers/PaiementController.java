@@ -2,47 +2,40 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Paiement;
 import com.serinity.autoloc.services.IPaiementService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/paiements")
+@AllArgsConstructor
+@RequestMapping("paiement")
 public class PaiementController {
+    private final IPaiementService paiementService;
 
-    private final IPaiementService service;
-
-    public PaiementController(IPaiementService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Paiement ajouterPaiement(@RequestBody Paiement paiement) {
+        return paiementService.ajouterPaiement(paiement);
     }
 
-    @PostMapping
-    public Paiement ajouter(@RequestBody Paiement objet) {
-        objet.setIdPaiement(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idPaiement}")
+    public void supprimerPaiement(@PathVariable Long idPaiement) {
+        paiementService.supprimerPaiement(idPaiement);
+    }
+
+    @GetMapping("/getbyId/{idPaiement}")
+    public Paiement consulterPaiementById(@PathVariable Long idPaiement) {
+        return paiementService.consulterPaiementById(idPaiement);
+    }
+
+    @PutMapping
+    public Paiement modifierPaiement(@RequestBody Paiement paiement) {
+        return paiementService.modifierPaiement(paiement);
     }
 
     @GetMapping
-    public List<Paiement> afficherTous() {
-        return service.findAll();
+    public List<Paiement> consulterPaiements() {
+        return paiementService.consulterPaiements();
     }
 
-    @GetMapping("/{id}")
-    public Paiement afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Paiement modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Paiement objet) {
-
-        objet.setIdPaiement(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

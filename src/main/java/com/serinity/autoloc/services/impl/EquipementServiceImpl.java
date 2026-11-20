@@ -15,27 +15,28 @@ public class EquipementServiceImpl implements IEquipementService {
     private final EquipementRepository equipementRepository;
 
     @Override
-    public Equipement add(Equipement equipement) {
+    public Equipement ajouterEquipement(Equipement equipement) {
         return equipementRepository.save(equipement);
     }
 
     @Override
-    public Equipement update(Equipement equipement) {
+    public Equipement modifierEquipement(Equipement equipement) {
         return equipementRepository.save(equipement);
     }
 
     @Override
-    public void delete(Long id) {
-        equipementRepository.deleteById(id);
-    }
-
-    @Override
-    public Equipement findById(Long id) {
-        return equipementRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Equipement> findAll() {
+    public List<Equipement> consulterEquipements() {
         return equipementRepository.findAll();
     }
+
+    @Override
+    public Equipement consulterEquipementById(Long idEquipement) {
+        return equipementRepository.findById(idEquipement).orElse(null);
+    }
+
+    @Override
+    public void supprimerEquipement(Long idEquipement) {
+        equipementRepository.deleteById(idEquipement);
+    }
+
 }

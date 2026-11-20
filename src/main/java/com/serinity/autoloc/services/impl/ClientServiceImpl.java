@@ -15,27 +15,28 @@ public class ClientServiceImpl implements IClientService {
     private final ClientRepository clientRepository;
 
     @Override
-    public Client add(Client client) {
+    public Client ajouterClient(Client client) {
         return clientRepository.save(client);
     }
 
     @Override
-    public Client update(Client client) {
+    public Client modifierClient(Client client) {
         return clientRepository.save(client);
     }
 
     @Override
-    public void delete(Long id) {
-        clientRepository.deleteById(id);
-    }
-
-    @Override
-    public Client findById(Long id) {
-        return clientRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Client> findAll() {
+    public List<Client> consulterClients() {
         return clientRepository.findAll();
     }
+
+    @Override
+    public Client consulterClientById(Long idClient) {
+        return clientRepository.findById(idClient).orElse(null);
+    }
+
+    @Override
+    public void supprimerClient(Long idClient) {
+        clientRepository.deleteById(idClient);
+    }
+
 }

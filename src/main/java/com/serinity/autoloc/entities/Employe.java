@@ -24,5 +24,6 @@ public class Employe {
 
     @ManyToOne
     @JoinColumn(name = "agence_id")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"employes", "vehicules"})
     private Agence agence;
 }

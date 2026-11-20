@@ -4,11 +4,11 @@ import com.serinity.autoloc.entities.Employe;
 import java.util.List;
 
 public interface IEmployeService {
-    Employe add(Employe employe);
-    Employe update(Employe employe);
-    void delete(Long id);
-    Employe findById(Long id);
-    List<Employe> findAll();
+    Employe ajouterEmploye(Employe employe);
+    Employe modifierEmploye(Employe employe);
+    List<Employe> consulterEmployes();
+    Employe consulterEmployeById(Long idEmploye);
+    void supprimerEmploye(Long idEmploye);
     Employe desaffecterEmploye(Long idEmploye);
     Employe affecterEmploye(Long idEmploye, Long idAgence);
 }

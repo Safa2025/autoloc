@@ -1,10 +1,10 @@
 package com.serinity.autoloc.services.impl;
 
-import com.serinity.autoloc.entities.Agence;
 import com.serinity.autoloc.entities.Employe;
-import com.serinity.autoloc.repositories.AgenceRepository;
 import com.serinity.autoloc.repositories.EmployeRepository;
 import com.serinity.autoloc.services.IEmployeService;
+import com.serinity.autoloc.entities.Agence;
+import com.serinity.autoloc.repositories.AgenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,44 +18,41 @@ public class EmployeServiceImpl implements IEmployeService {
     private final AgenceRepository agenceRepository;
 
     @Override
-    public Employe add(Employe employe) {
+    public Employe ajouterEmploye(Employe employe) {
         return employeRepository.save(employe);
     }
 
     @Override
-    public Employe update(Employe employe) {
+    public Employe modifierEmploye(Employe employe) {
         return employeRepository.save(employe);
     }
 
     @Override
-    public void delete(Long id) {
-        employeRepository.deleteById(id);
-    }
-
-    @Override
-    public Employe findById(Long id) {
-        return employeRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Employe> findAll() {
+    public List<Employe> consulterEmployes() {
         return employeRepository.findAll();
     }
 
     @Override
+    public Employe consulterEmployeById(Long idEmploye) {
+        return employeRepository.findById(idEmploye).orElse(null);
+    }
+
+    @Override
+    public void supprimerEmploye(Long idEmploye) {
+        employeRepository.deleteById(idEmploye);
+    }
+
+    @Override
     public Employe desaffecterEmploye(Long idEmploye) {
-        Employe employe = employeRepository.findById(idEmploye)
-            .orElseThrow(() -> new RuntimeException("Employé introuvable : " + idEmploye));
+        Employe employe = employeRepository.findById(idEmploye).get();
         employe.setAgence(null);
         return employeRepository.save(employe);
     }
 
     @Override
     public Employe affecterEmploye(Long idEmploye, Long idAgence) {
-        Employe employe = employeRepository.findById(idEmploye)
-            .orElseThrow(() -> new RuntimeException("Employé introuvable : " + idEmploye));
-        Agence agence = agenceRepository.findById(idAgence)
-            .orElseThrow(() -> new RuntimeException("Agence introuvable : " + idAgence));
+        Employe employe = employeRepository.findById(idEmploye).get();
+        Agence agence = agenceRepository.findById(idAgence).get();
         employe.setAgence(agence);
         return employeRepository.save(employe);
     }

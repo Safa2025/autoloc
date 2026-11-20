@@ -2,47 +2,49 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Vehicule;
 import com.serinity.autoloc.services.IVehiculeService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/vehicules")
+@AllArgsConstructor
+@RequestMapping("vehicule")
 public class VehiculeController {
+    private final IVehiculeService vehiculeService;
 
-    private final IVehiculeService service;
-
-    public VehiculeController(IVehiculeService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Vehicule ajouterVehicule(@RequestBody Vehicule vehicule) {
+        return vehiculeService.ajouterVehicule(vehicule);
     }
 
-    @PostMapping
-    public Vehicule ajouter(@RequestBody Vehicule objet) {
-        objet.setIdVehicule(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idVehicule}")
+    public void supprimerVehicule(@PathVariable Long idVehicule) {
+        vehiculeService.supprimerVehicule(idVehicule);
+    }
+
+    @GetMapping("/getbyId/{idVehicule}")
+    public Vehicule consulterVehiculeById(@PathVariable Long idVehicule) {
+        return vehiculeService.consulterVehiculeById(idVehicule);
+    }
+
+    @PutMapping
+    public Vehicule modifierVehicule(@RequestBody Vehicule vehicule) {
+        return vehiculeService.modifierVehicule(vehicule);
     }
 
     @GetMapping
-    public List<Vehicule> afficherTous() {
-        return service.findAll();
+    public List<Vehicule> consulterVehicules() {
+        return vehiculeService.consulterVehicules();
     }
 
-    @GetMapping("/{id}")
-    public Vehicule afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
+    @PutMapping("/affecterEquipement/{idVehicule}/{idEquipement}")
+    public Vehicule affecterEquipement(@PathVariable Long idVehicule, @PathVariable Long idEquipement) {
+        return vehiculeService.affecterEquipement(idVehicule, idEquipement);
     }
 
-    @PutMapping("/{id}")
-    public Vehicule modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Vehicule objet) {
-
-        objet.setIdVehicule(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
+    @PutMapping("/desaffecterEquipement/{idVehicule}/{idEquipement}")
+    public Vehicule desaffecterEquipement(@PathVariable Long idVehicule, @PathVariable Long idEquipement) {
+        return vehiculeService.desaffecterEquipement(idVehicule, idEquipement);
     }
 }

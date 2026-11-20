@@ -4,9 +4,11 @@ import com.serinity.autoloc.entities.Vehicule;
 import java.util.List;
 
 public interface IVehiculeService {
-    Vehicule add(Vehicule vehicule);
-    Vehicule update(Vehicule vehicule);
-    void delete(Long id);
-    Vehicule findById(Long id);
-    List<Vehicule> findAll();
+    Vehicule ajouterVehicule(Vehicule vehicule);
+    Vehicule modifierVehicule(Vehicule vehicule);
+    List<Vehicule> consulterVehicules();
+    Vehicule consulterVehiculeById(Long idVehicule);
+    void supprimerVehicule(Long idVehicule);
+    Vehicule affecterEquipement(Long idVehicule, Long idEquipement);
+    Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement);
 }

@@ -2,47 +2,44 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Agence;
 import com.serinity.autoloc.services.IAgenceService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/agences")
+@AllArgsConstructor
+@RequestMapping("agence")
 public class AgenceController {
+    private final IAgenceService agenceService;
 
-    private final IAgenceService service;
-
-    public AgenceController(IAgenceService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Agence ajouterAgence(@RequestBody Agence agence) {
+        return agenceService.ajouterAgence(agence);
     }
 
-    @PostMapping
-    public Agence ajouter(@RequestBody Agence objet) {
-        objet.setIdAgence(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idAgence}")
+    public void supprimerAgence(@PathVariable Long idAgence) {
+        agenceService.supprimerAgence(idAgence);
+    }
+
+    @GetMapping("/getbyId/{idAgence}")
+    public Agence consulterAgenceById(@PathVariable Long idAgence) {
+        return agenceService.consulterAgenceById(idAgence);
+    }
+
+    @PutMapping
+    public Agence modifierAgence(@RequestBody Agence agence) {
+        return agenceService.modifierAgence(agence);
     }
 
     @GetMapping
-    public List<Agence> afficherTous() {
-        return service.findAll();
+    public List<Agence> consulterAgences() {
+        return agenceService.consulterAgences();
     }
 
-    @GetMapping("/{id}")
-    public Agence afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Agence modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Agence objet) {
-
-        objet.setIdAgence(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
+    @PostMapping("/ajouterAgenceEtVehicules")
+    public Agence ajouterAgenceEtAffecterVehicules(@RequestBody Agence agence) {
+        return agenceService.ajouterAgenceEtAffecterVehicules(agence);
     }
 }

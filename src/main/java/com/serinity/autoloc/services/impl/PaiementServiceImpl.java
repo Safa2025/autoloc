@@ -15,27 +15,28 @@ public class PaiementServiceImpl implements IPaiementService {
     private final PaiementRepository paiementRepository;
 
     @Override
-    public Paiement add(Paiement paiement) {
+    public Paiement ajouterPaiement(Paiement paiement) {
         return paiementRepository.save(paiement);
     }
 
     @Override
-    public Paiement update(Paiement paiement) {
+    public Paiement modifierPaiement(Paiement paiement) {
         return paiementRepository.save(paiement);
     }
 
     @Override
-    public void delete(Long id) {
-        paiementRepository.deleteById(id);
-    }
-
-    @Override
-    public Paiement findById(Long id) {
-        return paiementRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public List<Paiement> findAll() {
+    public List<Paiement> consulterPaiements() {
         return paiementRepository.findAll();
     }
+
+    @Override
+    public Paiement consulterPaiementById(Long idPaiement) {
+        return paiementRepository.findById(idPaiement).orElse(null);
+    }
+
+    @Override
+    public void supprimerPaiement(Long idPaiement) {
+        paiementRepository.deleteById(idPaiement);
+    }
+
 }

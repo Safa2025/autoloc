@@ -2,47 +2,40 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Equipement;
 import com.serinity.autoloc.services.IEquipementService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/equipements")
+@AllArgsConstructor
+@RequestMapping("equipement")
 public class EquipementController {
+    private final IEquipementService equipementService;
 
-    private final IEquipementService service;
-
-    public EquipementController(IEquipementService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Equipement ajouterEquipement(@RequestBody Equipement equipement) {
+        return equipementService.ajouterEquipement(equipement);
     }
 
-    @PostMapping
-    public Equipement ajouter(@RequestBody Equipement objet) {
-        objet.setIdEquipement(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idEquipement}")
+    public void supprimerEquipement(@PathVariable Long idEquipement) {
+        equipementService.supprimerEquipement(idEquipement);
+    }
+
+    @GetMapping("/getbyId/{idEquipement}")
+    public Equipement consulterEquipementById(@PathVariable Long idEquipement) {
+        return equipementService.consulterEquipementById(idEquipement);
+    }
+
+    @PutMapping
+    public Equipement modifierEquipement(@RequestBody Equipement equipement) {
+        return equipementService.modifierEquipement(equipement);
     }
 
     @GetMapping
-    public List<Equipement> afficherTous() {
-        return service.findAll();
+    public List<Equipement> consulterEquipements() {
+        return equipementService.consulterEquipements();
     }
 
-    @GetMapping("/{id}")
-    public Equipement afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Equipement modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Equipement objet) {
-
-        objet.setIdEquipement(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

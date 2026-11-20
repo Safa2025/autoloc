@@ -4,9 +4,9 @@ import com.serinity.autoloc.entities.Contrat;
 import java.util.List;
 
 public interface IContratService {
-    Contrat add(Contrat contrat);
-    Contrat update(Contrat contrat);
-    void delete(Long id);
-    Contrat findById(Long id);
-    List<Contrat> findAll();
+    Contrat ajoutercontrat(Contrat contrat);
+    Contrat modifierContrat(Contrat contrat);
+    List<Contrat> consulterContrats();
+    Contrat consulterContratById(Long idContrat);
+    void supprimerContrat(Long idContrat);
 }

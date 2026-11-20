@@ -2,47 +2,40 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Maintenance;
 import com.serinity.autoloc.services.IMaintenanceService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/maintenances")
+@AllArgsConstructor
+@RequestMapping("maintenance")
 public class MaintenanceController {
+    private final IMaintenanceService maintenanceService;
 
-    private final IMaintenanceService service;
-
-    public MaintenanceController(IMaintenanceService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Maintenance ajouterMaintenance(@RequestBody Maintenance maintenance) {
+        return maintenanceService.ajouterMaintenance(maintenance);
     }
 
-    @PostMapping
-    public Maintenance ajouter(@RequestBody Maintenance objet) {
-        objet.setIdMaintenance(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idMaintenance}")
+    public void supprimerMaintenance(@PathVariable Long idMaintenance) {
+        maintenanceService.supprimerMaintenance(idMaintenance);
+    }
+
+    @GetMapping("/getbyId/{idMaintenance}")
+    public Maintenance consulterMaintenanceById(@PathVariable Long idMaintenance) {
+        return maintenanceService.consulterMaintenanceById(idMaintenance);
+    }
+
+    @PutMapping
+    public Maintenance modifierMaintenance(@RequestBody Maintenance maintenance) {
+        return maintenanceService.modifierMaintenance(maintenance);
     }
 
     @GetMapping
-    public List<Maintenance> afficherTous() {
-        return service.findAll();
+    public List<Maintenance> consulterMaintenances() {
+        return maintenanceService.consulterMaintenance();
     }
 
-    @GetMapping("/{id}")
-    public Maintenance afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Maintenance modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Maintenance objet) {
-
-        objet.setIdMaintenance(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

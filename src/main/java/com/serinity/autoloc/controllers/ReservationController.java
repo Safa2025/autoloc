@@ -2,47 +2,40 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Reservation;
 import com.serinity.autoloc.services.IReservationService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reservations")
+@AllArgsConstructor
+@RequestMapping("reservation")
 public class ReservationController {
+    private final IReservationService reservationService;
 
-    private final IReservationService service;
-
-    public ReservationController(IReservationService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Reservation ajouterReservation(@RequestBody Reservation reservation) {
+        return reservationService.ajouterReservation(reservation);
     }
 
-    @PostMapping
-    public Reservation ajouter(@RequestBody Reservation objet) {
-        objet.setIdReservation(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idReservation}")
+    public void supprimerReservation(@PathVariable Long idReservation) {
+        reservationService.supprimerReservation(idReservation);
+    }
+
+    @GetMapping("/getbyId/{idReservation}")
+    public Reservation consulterReservationById(@PathVariable Long idReservation) {
+        return reservationService.consulterReservationByID(idReservation);
+    }
+
+    @PutMapping
+    public Reservation modifierReservation(@RequestBody Reservation reservation) {
+        return reservationService.modifierReservation(reservation);
     }
 
     @GetMapping
-    public List<Reservation> afficherTous() {
-        return service.findAll();
+    public List<Reservation> consulterReservations() {
+        return reservationService.consulterReservations();
     }
 
-    @GetMapping("/{id}")
-    public Reservation afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Reservation modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Reservation objet) {
-
-        objet.setIdReservation(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

@@ -4,9 +4,9 @@ import com.serinity.autoloc.entities.Client;
 import java.util.List;
 
 public interface IClientService {
-    Client add(Client client);
-    Client update(Client client);
-    void delete(Long id);
-    Client findById(Long id);
-    List<Client> findAll();
+    Client ajouterClient(Client client);
+    Client modifierClient(Client client);
+    List<Client> consulterClients();
+    Client consulterClientById(Long idClient);
+    void supprimerClient(Long idClient);
 }

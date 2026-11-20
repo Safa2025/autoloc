@@ -2,47 +2,49 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Employe;
 import com.serinity.autoloc.services.IEmployeService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employes")
+@AllArgsConstructor
+@RequestMapping("employe")
 public class EmployeController {
+    private final IEmployeService employeService;
 
-    private final IEmployeService service;
-
-    public EmployeController(IEmployeService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Employe ajouterEmploye(@RequestBody Employe employe) {
+        return employeService.ajouterEmploye(employe);
     }
 
-    @PostMapping
-    public Employe ajouter(@RequestBody Employe objet) {
-        objet.setIdEmploye(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idEmploye}")
+    public void supprimerEmploye(@PathVariable Long idEmploye) {
+        employeService.supprimerEmploye(idEmploye);
+    }
+
+    @GetMapping("/getbyId/{idEmploye}")
+    public Employe consulterEmployeById(@PathVariable Long idEmploye) {
+        return employeService.consulterEmployeById(idEmploye);
+    }
+
+    @PutMapping
+    public Employe modifierEmploye(@RequestBody Employe employe) {
+        return employeService.modifierEmploye(employe);
     }
 
     @GetMapping
-    public List<Employe> afficherTous() {
-        return service.findAll();
+    public List<Employe> consulterEmployes() {
+        return employeService.consulterEmployes();
     }
 
-    @GetMapping("/{id}")
-    public Employe afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
+    @PutMapping("/desaffecter/{idEmploye}")
+    public Employe desaffecterEmploye(@PathVariable Long idEmploye) {
+        return employeService.desaffecterEmploye(idEmploye);
     }
 
-    @PutMapping("/{id}")
-    public Employe modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Employe objet) {
-
-        objet.setIdEmploye(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
+    @PutMapping("/affecter/{idEmploye}/{idAgence}")
+    public Employe affecterEmploye(@PathVariable Long idEmploye, @PathVariable Long idAgence) {
+        return employeService.affecterEmploye(idEmploye, idAgence);
     }
 }

@@ -2,47 +2,40 @@ package com.serinity.autoloc.controllers;
 
 import com.serinity.autoloc.entities.Contrat;
 import com.serinity.autoloc.services.IContratService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contrats")
+@AllArgsConstructor
+@RequestMapping("contrat")
 public class ContratController {
+    private final IContratService contratService;
 
-    private final IContratService service;
-
-    public ContratController(IContratService service) {
-        this.service = service;
+    @PostMapping("/ajouter")
+    public Contrat ajouterContrat(@RequestBody Contrat contrat) {
+        return contratService.ajoutercontrat(contrat);
     }
 
-    @PostMapping
-    public Contrat ajouter(@RequestBody Contrat objet) {
-        objet.setIdContrat(null);
-        return service.add(objet);
+    @DeleteMapping("/supprimer/{idContrat}")
+    public void supprimerContrat(@PathVariable Long idContrat) {
+        contratService.supprimerContrat(idContrat);
+    }
+
+    @GetMapping("/getbyId/{idContrat}")
+    public Contrat consulterContratById(@PathVariable Long idContrat) {
+        return contratService.consulterContratById(idContrat);
+    }
+
+    @PutMapping
+    public Contrat modifierContrat(@RequestBody Contrat contrat) {
+        return contratService.modifierContrat(contrat);
     }
 
     @GetMapping
-    public List<Contrat> afficherTous() {
-        return service.findAll();
+    public List<Contrat> consulterContrats() {
+        return contratService.consulterContrats();
     }
 
-    @GetMapping("/{id}")
-    public Contrat afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Contrat modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Contrat objet) {
-
-        objet.setIdContrat(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

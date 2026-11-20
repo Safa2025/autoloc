@@ -9,39 +9,33 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("clients")
+@RequestMapping("client")
 public class ClientController {
+    private final IClientService clientService;
 
-    private final IClientService service;
+    @PostMapping("/ajouter")
+    public Client ajouterClient(@RequestBody Client client) {
+        return clientService.ajouterClient(client);
+    }
 
+    @DeleteMapping("/supprimer/{idClient}")
+    public void supprimerClient(@PathVariable Long idClient) {
+        clientService.supprimerClient(idClient);
+    }
 
-    @PostMapping("/addclient")
-    public Client ajouter(@RequestBody Client objet) {
-        objet.setIdClient(null);
-        return service.add(objet);
+    @GetMapping("/getbyId/{idClient}")
+    public Client consulterClientById(@PathVariable Long idClient) {
+        return clientService.consulterClientById(idClient);
+    }
+
+    @PutMapping
+    public Client modifierClient(@RequestBody Client client) {
+        return clientService.modifierClient(client);
     }
 
     @GetMapping
-    public List<Client> afficherTous() {
-        return service.findAll();
+    public List<Client> consulterClients() {
+        return clientService.consulterClients();
     }
 
-    @GetMapping("/{id}")
-    public Client afficherParId(@PathVariable("id") Long id) {
-        return service.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Client modifier(
-            @PathVariable("id") Long id,
-            @RequestBody Client objet) {
-
-        objet.setIdClient(id);
-        return service.update(objet);
-    }
-
-    @DeleteMapping("/{id}")
-    public void supprimer(@PathVariable("id") Long id) {
-        service.delete(id);
-    }
 }

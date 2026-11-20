@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Agence {
 
     @Id
@@ -28,8 +27,7 @@ public class Agence {
     @ToString.Exclude
     private List<Employe> employes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "agence")
-    @JsonIgnore
+    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Vehicule> vehicules = new ArrayList<>();
 }

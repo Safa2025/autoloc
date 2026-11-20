@@ -4,9 +4,9 @@ import com.serinity.autoloc.entities.Paiement;
 import java.util.List;
 
 public interface IPaiementService {
-    Paiement add(Paiement paiement);
-    Paiement update(Paiement paiement);
-    void delete(Long id);
-    Paiement findById(Long id);
-    List<Paiement> findAll();
+    Paiement ajouterPaiement(Paiement paiement);
+    Paiement modifierPaiement(Paiement paiement);
+    List<Paiement> consulterPaiements();
+    Paiement consulterPaiementById(Long idPaiement);
+    void supprimerPaiement(Long idPaiement);
 }

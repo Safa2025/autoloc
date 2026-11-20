@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Vehicule {
 
     @Id
@@ -38,6 +37,7 @@ public class Vehicule {
 
     @ManyToOne
     @JoinColumn(name = "agence_id")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"vehicules", "employes"})
     private Agence agence;
 
     @ManyToMany
