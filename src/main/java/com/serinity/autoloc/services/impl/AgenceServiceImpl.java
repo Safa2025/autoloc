@@ -5,8 +5,11 @@ import com.serinity.autoloc.repositories.AgenceRepository;
 import com.serinity.autoloc.services.IAgenceService;
 import com.serinity.autoloc.entities.Vehicule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -46,5 +49,13 @@ public class AgenceServiceImpl implements IAgenceService {
             vehicule.setAgence(agence);
         }
         return agenceRepository.save(agence);
+    }
+    @Scheduled(fixedDelay = 120000)
+    public void suivreNombreAgences() {
+        List<Agence> agences = agenceRepository.findAll();
+        String date = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        System.out.println("[" + date + "] Vérification des agences");
+        System.out.println("Nombre total d'agences : " + agences.size());
     }
 }

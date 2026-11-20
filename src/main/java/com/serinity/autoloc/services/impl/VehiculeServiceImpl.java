@@ -5,8 +5,12 @@ import com.serinity.autoloc.repositories.VehiculeRepository;
 import com.serinity.autoloc.services.IVehiculeService;
 import com.serinity.autoloc.entities.Equipement;
 import com.serinity.autoloc.repositories.EquipementRepository;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,5 +68,14 @@ public class VehiculeServiceImpl implements IVehiculeService {
             vehicule.getEquipements().remove(equipement);
         }
         return vehiculeRepository.save(vehicule);
+    }
+
+    @Scheduled(initialDelay = 5000, fixedRate = 60000)
+    public void actualiserEtatVehicules() {
+        List<Vehicule> vehicules = vehiculeRepository.findAll();
+        String date = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        System.out.println("[" + date + "] Actualisation des véhicules");
+        System.out.println("Nombre total de véhicules : " + vehicules.size());
     }
 }
